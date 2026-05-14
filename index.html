@@ -28,30 +28,16 @@
     <!-- Populated at runtime from src/gifts/body.html -->
   </div>
 
-  <!-- COINS mode: placeholder for Turn 3. -->
-  <div id="modeCoins" class="mode-pane">
-    <div class="coins-placeholder">
-      <div class="coins-placeholder-emoji">🪙</div>
-      <h2>TON MEMECOIN SNIPING</h2>
-      <p class="coins-placeholder-tag">COMING IN v0.3</p>
-      <p>
-        Discover, track, and snipe TON memecoins directly inside GiftSnipr.
-        Powered by DeDust, fully on-chain, 0.75% fee.
-      </p>
-      <ul class="coins-placeholder-features">
-        <li>📈 Trending coins (sortable by mcap, volume, % change)</li>
-        <li>🔍 Search any TON jetton by ticker or contract</li>
-        <li>📊 Real-time price chart and holders</li>
-        <li>🛡️ Honeypot &amp; rug warnings (moderate-tier safety)</li>
-        <li>⚡ One-tap buy/sell via your connected wallet</li>
-        <li>🎯 Slippage settings &amp; quote previews</li>
-      </ul>
-      <p class="coins-placeholder-note">
-        Architecture &amp; DEX integration validated. UI shipping next turn.
-        Follow <a href="https://t.me/GiftSniprTON">@GiftSniprTON</a> for updates.
-      </p>
-    </div>
-  </div>
+  <!-- COINS mode: populated at runtime from src/coins/body.html -->
+  <div id="modeCoins" class="mode-pane"></div>
+
+  <!--
+    TON Connect widget root.
+    MUST live OUTSIDE any mode-pane: panes use display:none when inactive,
+    which would hide the modal AND lock body scroll without showing
+    anything (the freeze bug from v0.3 launch).
+  -->
+  <div id="tc-widget-root"></div>
 
   <script type="module" src="/src/main.js"></script>
 </body>
