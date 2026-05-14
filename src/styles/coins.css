@@ -27,18 +27,23 @@
 .mode-pane { display: none; }
 .mode-pane.mode-pane-active { display: block; }
 
-.coins-header {
-  background: linear-gradient(180deg, var(--sky-3) 0%, var(--sky-2) 100%);
-  border-bottom: var(--outline-fat);
-  padding: 10px 12px;
+.coins-toolbar {
+  background: var(--ink);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 12px;
   display: flex; align-items: center; gap: 10px;
 }
-.coins-header .spacer { flex: 1; }
+.coins-toolbar .spacer { flex: 1; }
+.coins-toolbar-label {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 13px; letter-spacing: 2px;
+  color: rgba(255,255,255,0.7);
+}
 .gear-btn {
-  width: 40px; height: 40px;
-  background: var(--cream); color: var(--ink);
-  border: var(--outline); border-radius: 10px;
-  font-size: 18px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.08); color: var(--cream);
+  border: 2px solid rgba(255,255,255,0.18); border-radius: 10px;
+  font-size: 16px;
   display: flex; align-items: center; justify-content: center;
   padding: 0; cursor: pointer; flex-shrink: 0;
 }
@@ -462,6 +467,3 @@
 .coins-toast.show { display: block; }
 @keyframes coinsToastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-@media (max-width: 400px) {
-  .coins-header .brand-text { font-size: 19px; }
-}
