@@ -1,0 +1,158 @@
+<header class="coins-header">
+    <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Snipr">
+      <defs>
+        <radialGradient id="coins-body-grad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="40%" stop-color="#bff0ff"/>
+          <stop offset="100%" stop-color="#1ea7e8"/>
+        </radialGradient>
+      </defs>
+      <path d="M 14 18 L 8 8 L 18 14 Z" fill="#3ec1ff" stroke="#0a0a1a" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M 50 18 L 56 8 L 46 14 Z" fill="#3ec1ff" stroke="#0a0a1a" stroke-width="2" stroke-linejoin="round"/>
+      <ellipse cx="32" cy="36" rx="24" ry="22" fill="url(#coins-body-grad)" stroke="#0a0a1a" stroke-width="3"/>
+      <ellipse cx="32" cy="34" rx="14" ry="13" fill="#fffdf5" stroke="#0a0a1a" stroke-width="2.5"/>
+      <circle cx="32" cy="35" r="6" fill="#ff5cb6" stroke="#0a0a1a" stroke-width="2"/>
+      <line x1="32" y1="27" x2="32" y2="31" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="32" y1="39" x2="32" y2="43" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="24" y1="35" x2="28" y2="35" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="36" y1="35" x2="40" y2="35" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="32" cy="35" r="1.6" fill="#0a0a1a"/>
+      <circle cx="28" cy="30" r="2.2" fill="#fff" opacity="0.95"/>
+      <path d="M 26 48 Q 32 53 38 48" fill="none" stroke="#0a0a1a" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="52" cy="22" r="2.5" fill="#caff4d" stroke="#0a0a1a" stroke-width="1.2"/>
+    </svg>
+    <div class="brand-text">
+      <span class="a">Gift</span><span class="b">Sn</span><span class="c">ipr</span><span class="beta-pill">BETA</span>
+    </div>
+    </div>
+    <div class="spacer"></div>
+    <button class="gear-btn" onclick="openSlippage()" aria-label="Slippage settings">⚙</button>
+  </header>
+
+  <div class="sort-tabs" id="sortTabs">
+    <button class="sort-tab active" data-sort="trending">🔥 Trending</button>
+    <button class="sort-tab" data-sort="new">✨ New</button>
+    <button class="sort-tab" data-sort="volume">📊 Volume</button>
+    <button class="sort-tab" data-sort="mcap">💎 Mcap</button>
+    <button class="sort-tab" data-sort="gainers">🚀 Gainers</button>
+    <button class="sort-tab" data-sort="losers">📉 Losers</button>
+  </div>
+
+  <div class="search-row">
+    <input class="search-input" id="searchInput" placeholder="🔍  Search ticker, name, or paste contract…" />
+  </div>
+
+  <!-- Connect-wallet banner — only shown when no wallet is connected -->
+  <div id="coinsWalletHint" class="coins-wallet-hint" style="display:none">
+    <span>🔌</span>
+    <span><b>Connect a wallet</b> to trade. Browsing only without one.</span>
+    <button id="coinsWalletHintBtn">CONNECT</button>
+  </div>
+
+  <div class="coin-list" id="coinList"></div>
+
+  <div class="detail-pane" id="detailPane">
+    <button class="detail-back">← BACK</button>
+    <div class="detail-hero" id="detailHero"></div>
+    <div id="detailRiskSlot"></div>
+    <div class="chart-card">
+      <div class="chart-top">
+        <div class="chart-title">📈 PRICE</div>
+        <div class="chart-range">
+          <button>1H</button>
+          <button class="active">24H</button>
+          <button>7D</button>
+          <button>30D</button>
+        </div>
+      </div>
+      <svg class="chart-svg" id="chartSvg" viewBox="0 0 400 120" preserveAspectRatio="none"></svg>
+    </div>
+    <div class="stats-grid" id="detailStats"></div>
+    <div class="links-row" id="detailLinks"></div>
+    <div class="action-footer">
+      <button class="action-btn sell-btn" onclick="openTrade('sell')">SELL</button>
+      <button class="action-btn buy-btn" id="buyBtn" onclick="openTrade('buy')">BUY</button>
+    </div>
+  </div>
+
+
+
+<div class="coins-modal-backdrop" id="tradeModal" onclick="if(event.target===this)closeTrade()">
+  <div class="coins-modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">
+      <div class="modal-title-eye" id="tradeTitleEye">🪙</div>
+      <span id="tradeTitleText">BUY $PEPE</span>
+    </div>
+    <div class="amount-input-row">
+      <div class="amount-input-label">
+        <span id="amountInputLabel">YOU PAY</span>
+        <span id="amountBalance">balance: 84.2 TON</span>
+      </div>
+      <input class="amount-input" id="amountInput" type="text" inputmode="decimal" value="10" oninput="recalcQuote()" />
+      <div class="amount-currency">
+        <span id="amountCurrency">TON</span>
+        <span id="amountUsd">≈ $58.40</span>
+      </div>
+      <div class="preset-row" id="presetRow">
+        <button class="preset-btn" data-preset="1">1</button>
+        <button class="preset-btn active" data-preset="10">10</button>
+        <button class="preset-btn" data-preset="50">50</button>
+        <button class="preset-btn" data-preset="100">100</button>
+        <button class="preset-btn" data-preset="max">MAX</button>
+      </div>
+    </div>
+    <div class="swap-arrow">↓</div>
+    <div class="amount-input-row">
+      <div class="amount-input-label">
+        <span>YOU RECEIVE (estimated)</span>
+      </div>
+      <div class="amount-input" id="outputAmount">12,420,000</div>
+      <div class="amount-currency">
+        <span id="outputCurrency">PEPE</span>
+        <span id="outputUsd">≈ $58.10</span>
+      </div>
+    </div>
+    <div class="slippage-section">
+      <div class="slippage-label">
+        SLIPPAGE TOLERANCE
+        <span class="slippage-current" id="slippageDisplay">1.0%</span>
+      </div>
+      <div class="slippage-row" id="modalSlippageRow">
+        <button class="slippage-btn" data-slip="0.5">0.5%</button>
+        <button class="slippage-btn active" data-slip="1">1%</button>
+        <button class="slippage-btn" data-slip="3">3%</button>
+        <button class="slippage-btn" data-slip="5">5%</button>
+      </div>
+    </div>
+    <div class="quote-summary">
+      <div class="quote-row"><span>Pool</span><span id="quotePool">DeDust · TON/PEPE</span></div>
+      <div class="quote-row"><span>Price impact</span><span id="quoteImpact" style="color:#1a8f3a">0.14%</span></div>
+      <div class="quote-row"><span>Min received</span><span id="quoteMinReceived">12,295,800 PEPE</span></div>
+      <div class="quote-row quote-fee"><span>GiftSnipr fee <small>(0.75%)</small></span><span id="quoteFee">0.075 TON</span></div>
+      <div class="quote-row quote-fee"><span>Network gas <small>(est.)</small></span><span>0.25 TON</span></div>
+      <div class="quote-row total"><span>Total cost</span><span id="quoteTotal">10.325 TON</span></div>
+    </div>
+    <button class="confirm-btn" id="confirmBtn" onclick="confirmTrade()">🎯 SWAP NOW</button>
+    <div class="confirm-disclaimer" id="tradeDisclaimer">
+      You'll sign 2 messages in your wallet: a 0.075 TON fee to the GiftSnipr fee wallet and the 10 TON swap on DeDust.
+    </div>
+  </div>
+</div>
+
+<div class="coins-modal-backdrop center" id="slippageModal" onclick="if(event.target===this)closeSlippage()">
+  <div class="simple-modal">
+    <h3>⚙ DEFAULT SLIPPAGE</h3>
+    <p>The maximum % your trade price can move against you before the swap reverts. Higher slippage = more likely to succeed on volatile coins, more likely to lose value.</p>
+    <div class="slippage-row" id="defaultSlippageRow">
+      <button class="slippage-btn" data-slip="0.5">0.5%</button>
+      <button class="slippage-btn active" data-slip="1">1%</button>
+      <button class="slippage-btn" data-slip="3">3%</button>
+      <button class="slippage-btn" data-slip="5">5%</button>
+    </div>
+    <button class="confirm-btn" style="margin-top:14px" onclick="closeSlippage()">Done</button>
+  </div>
+</div>
+
+<div class="coins-toast" id="coinsToast"></div>
