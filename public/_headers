@@ -1,0 +1,40 @@
+# =============================================================================
+#  GIFTSNIPR v0.3 — security headers (Turn 7 hardened)
+#
+#  Differences from the v0.2 production gifts CSP:
+#    - script-src: dropped 'unsafe-inline' (Vite produces external scripts)
+#    - connect-src: added GeckoTerminal, TonAPI, TonHub v4, Chainstack
+#    - connect-src: kept TonConnect bridges + gifts marketplaces
+# =============================================================================
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.geckoterminal.com https://*.tonapi.io https://tonapi.io https://bridge.tonapi.io https://mainnet-v4.tonhubapi.com https://ton-mainnet.core.chainstack.com https://api.tonnel.network https://gifts2.tonnel.network https://api.mrkt.app https://portals-market.com https://walletbot.me https://bridge.tonkeeper.com https://*.tonkeeper.com https://tonconnectbridge.mytonwallet.org https://connect.tonhubapi.com https://bridge.bitget.com https://*.bitget.com https://www.okx.com https://*.okx.com https://api.gateio.ws https://*.gateio.ws https://api.bybit.com https://*.bybit.com https://raw.githubusercontent.com; frame-ancestors 'self' https://web.telegram.org https://t.me https://telegram.org; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests; report-uri /csp-report
+
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), interest-cohort=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+  Cross-Origin-Resource-Policy: same-origin
+
+/tonconnect-manifest.json
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+  Vary: Origin
+  Cache-Control: public, max-age=300
+  Content-Type: application/json; charset=utf-8
+
+/icon-192.png
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+  Cache-Control: public, max-age=86400
+
+/icon-512.png
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
+  Cache-Control: public, max-age=86400
+
+/.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400

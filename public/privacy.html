@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — GiftSnipr</title>
+<link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@800&family=Fredoka:wght@600;700&family=DM+Mono&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--ink:#0a0a1a;--cream:#fffdf5;--sky:#3ec1ff;--lime:#caff4d;--hot:#ff5cb6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Nunito',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;padding:24px 18px 60px;max-width:680px;margin:0 auto}
+  h1{font-family:'Sniglet';font-size:32px;color:var(--sky);text-shadow:2px 2px 0 var(--ink);margin-bottom:6px;line-height:1.1}
+  h2{font-family:'Fredoka';font-weight:700;font-size:20px;margin-top:30px;margin-bottom:10px;color:var(--ink)}
+  h3{font-family:'Fredoka';font-weight:700;font-size:16px;margin-top:18px;margin-bottom:6px}
+  p,li{font-size:15px;margin-bottom:10px}
+  ul{padding-left:22px;margin-bottom:14px}
+  .meta{font-family:'DM Mono';font-size:12px;color:#666;margin-bottom:24px}
+  .callout{background:var(--lime);border:3px solid var(--ink);border-radius:12px;padding:14px;margin:20px 0;box-shadow:4px 4px 0 var(--ink)}
+  .callout strong{font-family:'Fredoka';font-weight:700}
+  a{color:var(--sky);font-weight:600;text-decoration:none;border-bottom:2px solid var(--sky)}
+  .home{display:inline-block;margin-top:30px;background:var(--ink);color:var(--lime);padding:10px 16px;border-radius:999px;font-family:'DM Mono';font-size:12px;text-decoration:none;border:none}
+</style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<p class="meta">Last updated: May 2026 · Effective immediately</p>
+
+<div class="callout">
+  <strong>The short version:</strong> we never see, store, or have access to your private keys, seed phrase, or wallet password. We store only your public wallet address (when you connect) and your Telegram ID (if you use Telegram features). Nothing else leaves your device that you don't explicitly trigger.
+</div>
+
+<h2>1. Who we are</h2>
+<p>GiftSnipr is an independently developed Telegram Mini App and web tool that helps users find and track Telegram Gift NFT deals across TON marketplaces (Tonnel, MRKT, Portals, Fragment). We are not affiliated with Telegram, the TON Foundation, Tonkeeper, or any listed marketplace.</p>
+<p>Operator contact: <a href="mailto:hello@giftsnipr.com">hello@giftsnipr.com</a> · Security: <a href="mailto:security@giftsnipr.com">security@giftsnipr.com</a></p>
+
+<h2>2. What we collect</h2>
+
+<h3>When you visit the site or open the Mini App</h3>
+<ul>
+  <li>Anonymized analytics: pageviews, country (city level), device type, referrer. No cookies needed for this; we use server-side aggregation.</li>
+  <li>Standard server logs (IP address, user agent, timestamp) retained for 14 days for abuse detection, then permanently deleted.</li>
+</ul>
+
+<h3>When you connect a wallet</h3>
+<ul>
+  <li>Your public wallet address (e.g. <code>UQAb…q3vN</code>). This is necessary to show your portfolio.</li>
+  <li>A signed authentication proof (ton_proof) generated once at connect time. Verified, then discarded.</li>
+  <li>A short-lived session token (JWT, 24-hour lifetime), stored in an httpOnly cookie.</li>
+</ul>
+
+<h3>When you use Telegram features</h3>
+<ul>
+  <li>Your Telegram user ID (a number, not your username) — needed for streak tracking, referrals, and notifications.</li>
+  <li>Your Telegram username (if public) — used only to display you on leaderboards if you opt in.</li>
+</ul>
+
+<h2>3. What we never collect</h2>
+<ul>
+  <li>Your private key, seed phrase, or wallet password — these never leave your wallet app.</li>
+  <li>Your real name, email (unless you contact us), or phone number.</li>
+  <li>Browsing activity outside our app.</li>
+  <li>Contents of your Telegram chats.</li>
+  <li>Tracking cookies for advertising purposes — we don't run ads.</li>
+</ul>
+
+<h2>4. How we use your data</h2>
+<ul>
+  <li>Display your gift portfolio and P&L (your wallet address only).</li>
+  <li>Track your streak, level, and badges (your Telegram ID).</li>
+  <li>Credit your referrals when invited friends connect (signed referral codes).</li>
+  <li>Detect abuse, fraud, and bot traffic (IP and rate-limit data).</li>
+  <li>Improve the product (anonymized aggregate analytics).</li>
+</ul>
+
+<h2>5. Who we share data with</h2>
+<p>No one, with these technical exceptions:</p>
+<ul>
+  <li><strong>Marketplace APIs (Tonnel, MRKT, Portals, Fragment):</strong> when you tap a snipe link, you leave our site and your browser sends standard request headers to their domain. We don't push your data to them.</li>
+  <li><strong>TON blockchain:</strong> if you ever sign a transaction (premium subscription, etc.), the transaction is broadcast publicly to the TON network — that's how blockchains work.</li>
+  <li><strong>Hosting and infrastructure:</strong> Cloudflare (CDN/DDoS), Netlify (static hosting), Supabase (database). These providers process traffic but don't have access to your wallet's funds.</li>
+</ul>
+<p>We never sell your data. We never share for advertising.</p>
+
+<h2>6. Cookies and storage</h2>
+<ul>
+  <li><strong>Auth session cookie</strong> (httpOnly, Secure, SameSite=Lax) — keeps you logged in for 24 hours.</li>
+  <li><strong>Wallet connection state</strong> (sessionStorage) — cleared when you close the tab.</li>
+  <li><strong>Preferences</strong> (localStorage) — UI settings only, no personal data.</li>
+</ul>
+<p>No third-party cookies, no advertising trackers, no fingerprinting.</p>
+
+<h2>7. Your rights</h2>
+<ul>
+  <li><strong>Disconnect anytime</strong> — from inside GiftSnipr or directly in Tonkeeper's connected-apps list.</li>
+  <li><strong>Delete your data</strong> — email <a href="mailto:privacy@giftsnipr.com">privacy@giftsnipr.com</a> with your wallet address. We delete within 7 days.</li>
+  <li><strong>Export your data</strong> — same email, we send your stored records as JSON.</li>
+  <li><strong>EU/UK users:</strong> you have full GDPR rights to access, rectification, erasure, restriction, and portability.</li>
+</ul>
+
+<h2>8. Security</h2>
+<p>We follow industry best practices: HTTPS-only with HSTS preloaded, strict Content Security Policy, signed authentication proofs (ton_proof), server-side rate limiting, and dependency pinning. Found a vulnerability? Please report it via <a href="mailto:security@giftsnipr.com">security@giftsnipr.com</a> or our <a href="/.well-known/security.txt">security.txt</a>.</p>
+
+<h2>9. Children</h2>
+<p>GiftSnipr is not intended for users under 18. We do not knowingly collect data from minors. If you believe we have, contact us and we'll delete it immediately.</p>
+
+<h2>10. Changes to this policy</h2>
+<p>We'll update this page when we change our practices. Material changes will be announced in our Telegram channel and via in-app notice at least 14 days before they take effect.</p>
+
+<h2>11. Contact</h2>
+<p>Privacy questions: <a href="mailto:privacy@giftsnipr.com">privacy@giftsnipr.com</a><br>
+Security reports: <a href="mailto:security@giftsnipr.com">security@giftsnipr.com</a><br>
+General: <a href="mailto:hello@giftsnipr.com">hello@giftsnipr.com</a></p>
+
+<a href="/" class="home">← back to giftsnipr</a>
+
+</body>
+</html>

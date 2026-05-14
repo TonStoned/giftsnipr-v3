@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+<meta name="theme-color" content="#3ec1ff" />
+<title>SNIPR — the eye that never blinks</title>
+<meta name="description" content="Snipr. Intergalactic gift-deal hunter. The eye that never blinks. Mascot of GiftSnipr & soon: $SNIPR on TON." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@800&family=Fredoka:wght@600;700&family=DM+Mono:wght@400;500&family=Nunito:wght@600;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --sky-1:#bff0ff;--sky-2:#7fdcff;--sky-3:#3ec1ff;--sky-4:#1ea7e8;
+  --deep:#0e3a5c;
+  --lime:#caff4d;--hot:#ff5cb6;--gold:#ffd23a;--alert:#ff3b3b;--purple:#a766ff;
+  --cream:#fffdf5;--bone:#fff4d6;--ink:#0a0a1a;
+  --shadow-hard:4px 4px 0 var(--ink);
+  --shadow-mega:6px 6px 0 var(--ink);
+  --shadow-huge:10px 10px 0 var(--ink);
+  --outline:3px solid var(--ink);
+  --outline-fat:4px solid var(--ink);
+  --radius:18px;
+  --font-display:'Sniglet',system-ui,sans-serif;
+  --font-head:'Fredoka',system-ui,sans-serif;
+  --font-mono:'DM Mono',ui-monospace,monospace;
+  --font-ui:'Nunito',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100vh;background:var(--cream);color:var(--ink);font-family:var(--font-ui);overscroll-behavior-y:none}
+body{
+  background:
+    radial-gradient(circle at 14% 16%,rgba(62,193,255,.30) 0,transparent 38%),
+    radial-gradient(circle at 86% 8%,rgba(255,210,58,.22) 0,transparent 32%),
+    radial-gradient(circle at 70% 92%,rgba(202,255,77,.22) 0,transparent 38%),
+    radial-gradient(circle at 18% 88%,rgba(255,92,182,.18) 0,transparent 32%),
+    var(--cream);
+  /* subtle grain so it doesn't feel digital */
+  background-image:
+    radial-gradient(circle at 14% 16%,rgba(62,193,255,.30) 0,transparent 38%),
+    radial-gradient(circle at 86% 8%,rgba(255,210,58,.22) 0,transparent 32%),
+    radial-gradient(circle at 70% 92%,rgba(202,255,77,.22) 0,transparent 38%),
+    radial-gradient(circle at 18% 88%,rgba(255,92,182,.18) 0,transparent 32%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 16px 80px}
+a{color:var(--sky-4);text-decoration:none;font-weight:700;border-bottom:2px solid var(--sky-4)}
+
+/* ============ TICKER STRIP ============ */
+.ticker-strip{
+  background:var(--ink);color:var(--lime);
+  border-bottom:var(--outline-fat);
+  padding:8px 0;
+  font-family:var(--font-mono);font-size:11px;
+  white-space:nowrap;overflow:hidden;
+  letter-spacing:0.5px;
+}
+.ticker-inner{
+  display:inline-block;
+  animation:tickerScroll 40s linear infinite;
+  padding-left:100%;
+}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+/* ============ HERO ============ */
+.hero{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+  align-items:center;
+  padding:50px 0 60px;
+}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;text-align:center;gap:24px;padding:32px 0 40px}
+}
+
+.hero-mascot{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+  min-height:340px;
+}
+.hero-mascot::before{
+  content:'';
+  position:absolute;
+  width:340px;height:340px;
+  background:radial-gradient(circle,var(--sky-2) 0%,transparent 65%);
+  filter:blur(20px);
+  z-index:0;
+}
+.hero-mascot svg{
+  position:relative;z-index:1;
+  width:300px;height:300px;
+  filter:drop-shadow(8px 8px 0 var(--ink));
+  animation:floatBob 3.6s ease-in-out infinite;
+}
+@keyframes floatBob{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-12px) rotate(2deg)}
+}
+
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(64px,10vw,120px);
+  line-height:0.9;
+  margin-bottom:14px;
+  letter-spacing:-1px;
+}
+.hero-title .a{display:block;color:var(--sky-4);text-shadow:5px 5px 0 var(--ink)}
+.hero-title .b{display:block;color:var(--hot);text-shadow:5px 5px 0 var(--ink);margin-left:30px}
+@media(max-width:768px){.hero-title .b{margin-left:0}}
+
+.hero-tagline{
+  font-family:var(--font-display);
+  font-size:18px;
+  color:var(--ink);
+  margin-bottom:8px;
+  letter-spacing:0.5px;
+}
+.hero-meta{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:#666;
+  margin-bottom:24px;
+  letter-spacing:0.5px;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--lime);
+  color:var(--ink);
+  border:var(--outline-fat);
+  border-radius:14px;
+  padding:14px 22px;
+  font-family:var(--font-display);
+  font-size:18px;line-height:1;
+  box-shadow:var(--shadow-mega);
+  text-decoration:none;
+  border-bottom:none;
+  transition:transform .15s, box-shadow .15s;
+}
+.hero-cta:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.hero-cta:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+
+/* ============ SECTION HEADERS ============ */
+.section{margin-top:64px}
+.section-tag{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  background:var(--ink);color:var(--lime);
+  padding:5px 10px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(40px,6vw,68px);
+  line-height:0.95;
+  margin-bottom:20px;
+  letter-spacing:-0.5px;
+}
+.section-title .accent{color:var(--hot)}
+
+/* ============ STAT CARDS ============ */
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-top:28px;
+}
+.stat-card{
+  background:var(--cream);
+  border:var(--outline-fat);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-mega);
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+.stat-card:nth-child(1){transform:rotate(-1deg)}
+.stat-card:nth-child(2){transform:rotate(0.8deg)}
+.stat-card:nth-child(3){transform:rotate(-0.5deg)}
+.stat-card:nth-child(4){transform:rotate(1deg)}
+.stat-card .stat-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:#666;
+  margin-bottom:6px;
+}
+.stat-card .stat-value{
+  font-family:var(--font-display);
+  font-size:34px;
+  line-height:1;
+  color:var(--ink);
+  margin-bottom:4px;
+}
+.stat-card .stat-detail{
+  font-family:var(--font-ui);
+  font-size:13px;
+  color:#444;
+  line-height:1.4;
+}
+
+/* ============ LORE BLOCK ============ */
+.lore-block{
+  background:var(--ink);
+  color:var(--cream);
+  border:var(--outline-fat);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-huge);
+  padding:36px;
+  margin-top:32px;
+  position:relative;
+  overflow:hidden;
+}
+.lore-block::before{
+  content:'';
+  position:absolute;
+  top:-50px;right:-50px;
+  width:200px;height:200px;
+  background:var(--hot);
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:0.5;
+}
+.lore-block::after{
+  content:'';
+  position:absolute;
+  bottom:-50px;left:-50px;
+  width:200px;height:200px;
+  background:var(--sky-3);
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:0.4;
+}
+.lore-content{position:relative;z-index:1}
+.lore-quote{
+  font-family:var(--font-display);
+  font-size:24px;
+  line-height:1.3;
+  color:var(--lime);
+  margin-bottom:24px;
+  font-style:italic;
+}
+.lore-text{
+  font-family:var(--font-ui);
+  font-size:16px;
+  line-height:1.7;
+  color:var(--cream);
+  margin-bottom:14px;
+  max-width:680px;
+}
+.lore-text strong{color:var(--gold);font-weight:800}
+
+/* ============ TRAITS GRID ============ */
+.traits{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+  margin-top:28px;
+}
+.trait{
+  background:var(--cream);
+  border:var(--outline);
+  border-radius:14px;
+  box-shadow:var(--shadow-hard);
+  padding:16px;
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:14px;
+  align-items:start;
+}
+.trait .ticon{
+  font-size:32px;line-height:1;
+  filter:drop-shadow(2px 2px 0 var(--ink));
+  text-align:center;
+}
+.trait h3{
+  font-family:var(--font-head);font-weight:700;font-size:16px;
+  margin-bottom:4px;
+  line-height:1.2;
+}
+.trait p{
+  font-family:var(--font-ui);font-size:13px;
+  line-height:1.4;
+  color:#444;
+}
+
+/* ============ TOKEN UTILITY CARDS ============ */
+.utility-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:18px;
+  margin-top:28px;
+}
+.utility-card{
+  background:var(--cream);
+  border:var(--outline-fat);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-mega);
+  padding:22px;
+  position:relative;
+}
+.utility-card.feat-1{background:var(--lime)}
+.utility-card.feat-2{background:var(--hot);color:var(--cream)}
+.utility-card.feat-3{background:var(--gold)}
+.utility-card.feat-4{background:var(--sky-2)}
+.utility-card .u-tag{
+  font-family:var(--font-mono);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  background:var(--ink);
+  color:var(--cream);
+  padding:3px 8px;
+  border-radius:999px;
+  display:inline-block;
+  margin-bottom:12px;
+}
+.utility-card.feat-2 .u-tag{background:var(--cream);color:var(--ink)}
+.utility-card h3{
+  font-family:var(--font-display);
+  font-size:22px;
+  line-height:1.1;
+  margin-bottom:8px;
+}
+.utility-card p{
+  font-family:var(--font-ui);
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* ============ TOKENOMICS ============ */
+.tokenomics{
+  background:var(--cream);
+  border:var(--outline-fat);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-mega);
+  padding:32px;
+  margin-top:32px;
+}
+.token-bar{
+  display:flex;
+  width:100%;
+  height:50px;
+  border:var(--outline);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:24px;
+  box-shadow:var(--shadow-hard);
+}
+.token-slice{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:14px;
+  color:var(--ink);
+  border-right:2px solid var(--ink);
+  white-space:nowrap;
+  overflow:hidden;
+  letter-spacing:1px;
+}
+.token-slice:last-child{border-right:none}
+.token-slice.fair{background:var(--lime);flex:1 0 0;font-size:16px}
+
+.token-legend{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+.legend-item{
+  display:grid;
+  grid-template-columns:24px 1fr;
+  gap:10px;
+  align-items:center;
+  font-family:var(--font-ui);font-size:13px;
+}
+.legend-item .swatch{
+  width:20px;height:20px;
+  border:2px solid var(--ink);
+  border-radius:4px;
+}
+.legend-item b{font-family:var(--font-display);font-size:15px;display:block}
+.legend-item span{color:#666;font-size:12px}
+
+/* ============ CONTRACT BLOCK ============ */
+.contract-block{
+  background:var(--ink);
+  color:var(--lime);
+  border:var(--outline-fat);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-mega);
+  padding:24px;
+  margin-top:32px;
+  font-family:var(--font-mono);
+  position:relative;
+}
+.contract-block .label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.contract-block .addr{
+  font-size:14px;
+  word-break:break-all;
+  line-height:1.5;
+  background:rgba(202,255,77,0.08);
+  padding:12px;
+  border-radius:8px;
+  border:1px dashed var(--lime);
+}
+.contract-block .warn{
+  margin-top:14px;
+  font-size:12px;
+  color:var(--hot);
+  font-family:var(--font-ui);
+  line-height:1.5;
+}
+
+/* ============ PHASES TIMELINE ============ */
+.phases{
+  display:grid;
+  gap:14px;
+  margin-top:28px;
+}
+.phase{
+  display:grid;
+  grid-template-columns:80px 1fr;
+  gap:18px;
+  background:var(--cream);
+  border:var(--outline);
+  border-radius:14px;
+  box-shadow:var(--shadow-hard);
+  padding:18px;
+  align-items:center;
+}
+.phase-num{
+  font-family:var(--font-display);
+  font-size:42px;
+  line-height:1;
+  color:var(--sky-4);
+  text-shadow:2px 2px 0 var(--ink);
+  text-align:center;
+}
+.phase h3{font-family:var(--font-head);font-weight:700;font-size:16px;margin-bottom:4px}
+.phase p{font-family:var(--font-ui);font-size:13px;color:#444;line-height:1.4}
+
+/* ============ FAQ ============ */
+.faq-item{
+  background:var(--cream);
+  border:var(--outline);
+  border-radius:14px;
+  box-shadow:var(--shadow-hard);
+  padding:18px 22px;
+  margin-top:14px;
+  cursor:pointer;
+}
+.faq-item summary{
+  font-family:var(--font-head);
+  font-weight:700;font-size:16px;
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{
+  content:'+';
+  font-family:var(--font-display);
+  font-size:24px;
+  line-height:1;
+  color:var(--sky-4);
+  transition:transform .2s;
+}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{
+  margin-top:12px;
+  font-family:var(--font-ui);font-size:14px;
+  line-height:1.6;color:#333;
+}
+
+/* ============ FOOTER ============ */
+footer{
+  margin-top:80px;
+  padding-top:32px;
+  border-top:var(--outline);
+  text-align:center;
+  font-family:var(--font-mono);font-size:12px;
+  color:#666;
+}
+footer .links{margin-bottom:12px}
+footer .links a{margin:0 10px;color:var(--ink);border-bottom-color:var(--ink)}
+footer .signoff{
+  font-family:var(--font-display);
+  font-size:18px;
+  color:var(--sky-4);
+  margin-top:16px;
+  text-shadow:2px 2px 0 var(--ink);
+}
+
+/* ============ DISCLAIMERS ============ */
+.disclaimer-pill{
+  display:inline-block;
+  background:var(--alert);
+  color:var(--cream);
+  border:2px solid var(--ink);
+  border-radius:999px;
+  padding:5px 12px;
+  font-family:var(--font-mono);font-size:10px;
+  text-transform:uppercase;letter-spacing:1px;
+  font-weight:700;
+  margin-left:10px;
+  vertical-align:middle;
+}
+</style>
+</head>
+<body>
+
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    👁️ SNIPR SAW IT FIRST &nbsp;·&nbsp; THE EYE THAT NEVER BLINKS &nbsp;·&nbsp; 4 MARKETPLACES, ZERO DOWNTIME &nbsp;·&nbsp; $SNIPR — COMING TO TON &nbsp;·&nbsp; SNIPR SAW IT FIRST &nbsp;·&nbsp; THE EYE THAT NEVER BLINKS &nbsp;·&nbsp; 4 MARKETPLACES, ZERO DOWNTIME &nbsp;·&nbsp; $SNIPR — COMING TO TON &nbsp;·&nbsp;
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-mascot">
+    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+      <defs>
+        <radialGradient id="bg-hero" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="40%" stop-color="#bff0ff"/>
+          <stop offset="100%" stop-color="#1ea7e8"/>
+        </radialGradient>
+      </defs>
+      <path d="M 14 18 L 8 8 L 18 14 Z" fill="#3ec1ff" stroke="#0a0a1a" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M 50 18 L 56 8 L 46 14 Z" fill="#3ec1ff" stroke="#0a0a1a" stroke-width="2" stroke-linejoin="round"/>
+      <ellipse cx="32" cy="36" rx="24" ry="22" fill="url(#bg-hero)" stroke="#0a0a1a" stroke-width="3"/>
+      <ellipse cx="32" cy="34" rx="14" ry="13" fill="#fffdf5" stroke="#0a0a1a" stroke-width="2.5"/>
+      <circle cx="32" cy="35" r="6" fill="#ff5cb6" stroke="#0a0a1a" stroke-width="2"/>
+      <line x1="32" y1="27" x2="32" y2="31" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="32" y1="39" x2="32" y2="43" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="24" y1="35" x2="28" y2="35" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="36" y1="35" x2="40" y2="35" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="32" cy="35" r="1.6" fill="#0a0a1a"/>
+      <circle cx="28" cy="30" r="2.2" fill="#fff" opacity="0.95"/>
+      <path d="M 26 48 Q 32 53 38 48" fill="none" stroke="#0a0a1a" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="52" cy="22" r="2.5" fill="#caff4d" stroke="#0a0a1a" stroke-width="1.2"/>
+    </svg>
+  </div>
+  <div>
+    <h1 class="hero-title">
+      <span class="a">SNIPR</span>
+      <span class="b">SEES</span>
+    </h1>
+    <p class="hero-tagline">The eye that never blinks. The hunter that never sleeps.</p>
+    <p class="hero-meta">Mascot of GiftSnipr · Coming soon: $SNIPR on TON</p>
+    <a href="https://t.me/GiftSniprBot" class="hero-cta">LAUNCH GIFTSNIPR →</a>
+  </div>
+</section>
+
+<!-- LORE -->
+<section class="section">
+  <span class="section-tag">📜 ORIGIN STORY</span>
+  <h2 class="section-title">Who is <span class="accent">Snipr</span>?</h2>
+  <div class="lore-block">
+    <div class="lore-content">
+      <p class="lore-quote">"They told me to look away. So I made my eye bigger."</p>
+      <p class="lore-text">
+        <strong>Snipr</strong> is an intergalactic gift-deal hunter from a planet where the sun never set, the markets never closed, and looking away meant losing everything.
+      </p>
+      <p class="lore-text">
+        He arrived on Earth in 2025 carrying nothing but a single eye, two pointy ears, and one job: <strong>find the gifts that humans were about to undervalue, and make sure the right collectors got there first.</strong>
+      </p>
+      <p class="lore-text">
+        He never sleeps. He never blinks. He runs scans every 60 seconds across <strong>Tonnel, MRKT, Portals, and Fragment</strong>, watching every floor and every listing, calling out the deals before the rest of the market notices.
+      </p>
+      <p class="lore-text">
+        Some people call him a goblin. Others call him an alien. He doesn't care. He's already onto the next deal.
+      </p>
+      <p class="lore-text" style="font-family:var(--font-display);font-size:20px;color:var(--lime);margin-top:24px">
+        Snipr saw it first. Snipr always sees it first.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TRAITS -->
+<section class="section">
+  <span class="section-tag">⚙️ CHARACTER SHEET</span>
+  <h2 class="section-title">Snipr's <span class="accent">traits</span></h2>
+  <div class="traits">
+    <div class="trait">
+      <div class="ticon">👁️</div>
+      <div>
+        <h3>Single eye, target pupil</h3>
+        <p>Locks on to undervalued gifts the second they list. Cannot blink — biologically incapable.</p>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="ticon">📡</div>
+      <div>
+        <h3>Always scanning</h3>
+        <p>Polls 4 marketplaces every 60 seconds. Never logs off. Doesn't have a phone — IS the phone.</p>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="ticon">⚡</div>
+      <div>
+        <h3>0.4 second reaction</h3>
+        <p>From "deal spotted" to "alert sent" in one TON block. You will not beat him manually.</p>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="ticon">😏</div>
+      <div>
+        <h3>Permanent smirk</h3>
+        <p>Like he already knows what you're about to ask. He does. He saw the listing 12 minutes ago.</p>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="ticon">🎯</div>
+      <div>
+        <h3>Aim assist</h3>
+        <p>His pink target pupil isn't decoration — it's a literal HUD overlay on every gift in his sight.</p>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="ticon">💎</div>
+      <div>
+        <h3>Doesn't sell</h3>
+        <p>Snipr only buys. He has never listed a gift. The whales know this. They fear him.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BUBBLE -->
+<section class="section">
+  <span class="section-tag">📊 BY THE NUMBERS</span>
+  <h2 class="section-title">What Snipr <span class="accent">does daily</span></h2>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">Gifts scanned / day</div>
+      <div class="stat-value">28K+</div>
+      <div class="stat-detail">Across all 4 TON gift marketplaces</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg. floor variance caught</div>
+      <div class="stat-value">8.2%</div>
+      <div class="stat-detail">When Snipr sees a gap, he calls it</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Sniprs (community)</div>
+      <div class="stat-value">growing</div>
+      <div class="stat-detail">The hunters who follow Snipr's scope</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Times he blinked</div>
+      <div class="stat-value">0</div>
+      <div class="stat-detail">Snipr has never blinked. Not once.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOKEN UTILITY -->
+<section class="section">
+  <span class="section-tag">🪙 $SNIPR — THE TOKEN</span>
+  <h2 class="section-title">What it'll <span class="accent">do</span> <span class="disclaimer-pill">not live yet</span></h2>
+  <p style="font-family:var(--font-ui);font-size:15px;line-height:1.6;color:#444;max-width:680px;margin-top:8px">
+    $SNIPR is a Jetton (TON's token standard) launching <strong>100% fair</strong>. No presale. No team allocation. No airdrop. No insiders. Same price for everyone from block 1 — pump.fun style on TON.
+  </p>
+  <div class="utility-grid">
+    <div class="utility-card feat-1">
+      <span class="u-tag">utility · 1</span>
+      <h3>STAKE → PREMIUM</h3>
+      <p>Stake $SNIPR to unlock premium tier in the app: advanced alerts, whale tracker, custom watchlists. No monthly fee, just hold &amp; stake.</p>
+    </div>
+    <div class="utility-card feat-2">
+      <span class="u-tag">utility · 2</span>
+      <h3>PAY → DISCOUNT</h3>
+      <p>Future paid features (premium subs, featured listings) cost 25% less when paid in $SNIPR vs TON. Use it, save more.</p>
+    </div>
+    <div class="utility-card feat-3">
+      <span class="u-tag">utility · 3</span>
+      <h3>HOLD → LEADERBOARD</h3>
+      <p>$SNIPR-only leaderboards with bigger weekly TON prize pools. Hunt against other Sniprs, win real money.</p>
+    </div>
+    <div class="utility-card feat-4">
+      <span class="u-tag">utility · 4</span>
+      <h3>HOLD → STATUS</h3>
+      <p>Holders unlock a verified badge on their profile, special role in the community, and limited mascot PFP variants. The eye sees its own.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section class="section">
+  <span class="section-tag">📐 TOKENOMICS</span>
+  <h2 class="section-title">100% <span class="accent">fair launch</span></h2>
+  <div class="tokenomics">
+    <p style="font-family:var(--font-ui);font-size:14px;color:#666;margin-bottom:16px">
+      Total supply: <strong style="font-family:var(--font-display);font-size:18px;color:var(--ink)">1,000,000,000 $SNIPR</strong>. Fixed. No mint function. No further minting ever.
+    </p>
+    <div class="token-bar">
+      <div class="token-slice fair">100% FAIR LAUNCH · COMMUNITY OWNED</div>
+    </div>
+    <div class="token-legend">
+      <div class="legend-item">
+        <div class="swatch" style="background:var(--lime)"></div>
+        <div>
+          <b>0% team allocation</b>
+          <span>We buy on the open market like everyone else</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:var(--lime)"></div>
+        <div>
+          <b>0% presale / private round</b>
+          <span>No insiders. No allocations. No discounts.</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:var(--lime)"></div>
+        <div>
+          <b>0% pre-airdrop</b>
+          <span>Everyone buys at the same price from block 1</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="swatch" style="background:var(--lime)"></div>
+        <div>
+          <b>100% bonding curve</b>
+          <span>Pump.fun style — auto-LP to DEX, LP burned</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-family:var(--font-ui);font-size:13px;color:#555;line-height:1.6;margin-top:18px;border-top:2px dashed rgba(10,10,26,0.15);padding-top:14px">
+      <strong>How it works:</strong> $SNIPR launches via bonding curve on a TON launchpad (likely Blum, STON.fi, or DeDust). Anyone can buy from second one. As more is bought, the price rises along the curve. When the curve fills, liquidity automatically migrates to a DEX and the LP tokens are <strong>permanently burned</strong> — nobody can rug. The community is first. The community calls the shots.
+    </p>
+  </div>
+</section>
+
+<!-- CONTRACT -->
+<section class="section">
+  <span class="section-tag">🔐 OFFICIAL CONTRACT</span>
+  <h2 class="section-title">Verify before <span class="accent">buying</span></h2>
+  <div class="contract-block">
+    <div class="label">$SNIPR Master Contract — TON</div>
+    <div class="addr">EQ&lt;not deployed yet — check back after launch&gt;</div>
+    <div class="warn">⚠️ When the token launches, this address will appear here. <strong>NEVER buy $SNIPR from any contract address that does not match the one shown on this page or in @SniprTon.</strong> Clones will appear within hours of launch. The mascot is the easy thing to copy. The verified contract is not.</div>
+  </div>
+</section>
+
+<!-- LAUNCH PHASES -->
+<section class="section">
+  <span class="section-tag">🗓️ ROADMAP</span>
+  <h2 class="section-title">When <span class="accent">$SNIPR drops</span></h2>
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-num">0</div>
+      <div>
+        <h3>Now</h3>
+        <p>Ship GiftSnipr. Earn affiliate fees. Build the Snipr community on X and Telegram. NO TOKEN YET.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div>
+        <h3>Pre-launch · 1-2 weeks out</h3>
+        <p>Mascot teasers. Lore drops. Launch date and bonding-curve platform announced. Community decides timing.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div>
+        <h3>Launch · 100% fair launch</h3>
+        <p>Bonding curve deployed. Everyone buys at the same price from block 1. No allocations, no insiders, no discounts. The contract address goes here.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div>
+        <h3>Auto-migration to DEX</h3>
+        <p>Once the bonding curve fills, liquidity automatically migrates to a TON DEX. LP tokens are <strong>permanently burned</strong>. Unruggable from day one.</p>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div>
+        <h3>Utility goes live</h3>
+        <p>Staking → premium tier. Pay with $SNIPR for 25% discount. Holder leaderboards. Verified-Snipr badges. The token starts working inside the app.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <span class="section-tag">❓ FAQ</span>
+  <h2 class="section-title">Common <span class="accent">questions</span></h2>
+
+  <details class="faq-item">
+    <summary>When does $SNIPR launch?</summary>
+    <p>When the community is ready. No revenue gates, no DAU thresholds — fair launches work because the community decides. Watch @SniprTon for the announcement and launch date.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is this a memecoin or a utility token?</summary>
+    <p>Both. The mascot makes it memetic; the staking, discounts, and leaderboards make it utility. We think the most durable tokens combine both — pure meme dies fast, pure utility never gets traction.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Will there be a presale?</summary>
+    <p><strong>No.</strong> No presale. No private round. No allocations to anyone — not friends, not VCs, not the team. $SNIPR launches via fair bonding curve, pump.fun style. Everyone buys at the same price starting block 1.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is there an airdrop?</summary>
+    <p><strong>No.</strong> Fair launch means everyone pays the same price. If we airdropped to early users, those users would get tokens cheaper than everyone else — that's not fair. We may do post-launch <strong>community quests</strong> with treasury-purchased $SNIPR as rewards, but those are bought on the open market like anyone else.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Does the team get tokens?</summary>
+    <p><strong>0% to the team at launch.</strong> If we want $SNIPR, we buy it on the open market like every other participant. Any future treasury used to fund development comes from affiliate revenue (in TON), not from $SNIPR allocations.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Can the LP be rugged?</summary>
+    <p>No. The bonding curve auto-migrates to a TON DEX once filled, and the LP tokens are <strong>permanently burned</strong> by the launchpad contract. Nobody — not the team, not a hacker, not the launchpad — can pull the liquidity. This is the mechanic that makes fair launches safer than typical token launches.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Is this financial advice?</summary>
+    <p>No. Crypto is risky. Memecoins are riskier. Fair launches reduce one specific risk (insider dumping) but they don't eliminate market risk. Never spend more than you can lose entirely. We make no promises about price.</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>How will I know I'm buying the real $SNIPR?</summary>
+    <p>This page will show the verified contract address the moment the token deploys. Same with @SniprTon on Telegram. <strong>If you ever see $SNIPR sold via DM, sold by anyone other than verified channels, or with a different contract — it's a scam.</strong></p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Why fair launch instead of a structured token launch?</summary>
+    <p>Because crypto has been gamed for years by VCs, presales, and team allocations that dump on retail. Pump.fun proved that fair launches can build durable communities without that pattern. We want $SNIPR to belong to the people who actually use GiftSnipr — not to insiders.</p>
+  </details>
+</section>
+
+<!-- CTA AT END -->
+<section class="section" style="text-align:center;margin-top:80px">
+  <h2 class="section-title">Become a <span class="accent">Snipr.</span></h2>
+  <p style="font-family:var(--font-ui);font-size:16px;color:#444;margin-bottom:24px">
+    Open the app. Find your first deal. Start your streak. The token comes when the community does.
+  </p>
+  <a href="https://t.me/GiftSniprBot" class="hero-cta" style="font-size:20px">
+    🎯 LAUNCH GIFTSNIPR
+  </a>
+</section>
+
+<footer>
+  <div class="links">
+    <a href="https://x.com/SniprTON">@SniprTON</a>
+    <a href="https://t.me/GiftSniprTON">@GiftSniprTON</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+  <div>$SNIPR is not yet launched. Nothing on this page is a securities offering, financial advice, or guarantee.</div>
+  <div class="signoff">👁️ Snipr saw it first.</div>
+</footer>
+
+</div>
+</body>
+</html>
