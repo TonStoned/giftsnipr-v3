@@ -15,18 +15,60 @@
 </head>
 <body>
   <!--
-    GIFTS/COINS mode toggle — top of app, above brand bar.
-    Establishes the Turn-2 v0.3 architecture: two products under one Mini App.
+    GLOBAL HEADER — sits above everything. The single CONNECT/wallet pill
+    here is the only wallet button for the entire app. Both GIFTS and
+    COINS tabs share this header — no per-tab connect buttons.
   -->
+  <header class="topbar" id="globalTopbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Snipr">
+        <defs>
+          <radialGradient id="body-grad" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="40%" stop-color="#bff0ff"/>
+            <stop offset="100%" stop-color="#1ea7e8"/>
+          </radialGradient>
+        </defs>
+        <path d="M 14 18 L 8 8 L 18 14 Z" fill="#3ec1ff" stroke="#0a0a1a" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M 50 18 L 56 8 L 46 14 Z" fill="#3ec1ff" stroke="#0a0a1a" stroke-width="2" stroke-linejoin="round"/>
+        <ellipse cx="32" cy="36" rx="24" ry="22" fill="url(#body-grad)" stroke="#0a0a1a" stroke-width="3"/>
+        <ellipse cx="32" cy="34" rx="14" ry="13" fill="#fffdf5" stroke="#0a0a1a" stroke-width="2.5"/>
+        <circle cx="32" cy="35" r="6" fill="#ff5cb6" stroke="#0a0a1a" stroke-width="2"/>
+        <line x1="32" y1="27" x2="32" y2="31" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="32" y1="39" x2="32" y2="43" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="24" y1="35" x2="28" y2="35" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="36" y1="35" x2="40" y2="35" stroke="#0a0a1a" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="32" cy="35" r="1.6" fill="#0a0a1a"/>
+        <circle cx="28" cy="30" r="2.2" fill="#fff" opacity="0.95"/>
+        <path d="M 26 48 Q 32 53 38 48" fill="none" stroke="#0a0a1a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="52" cy="22" r="2.5" fill="#caff4d" stroke="#0a0a1a" stroke-width="1.2"/>
+      </svg>
+      <div class="brand-text">
+        <span class="a">Gift</span><span class="b">Sn</span><span class="c">ipr</span><span class="beta-pill">BETA</span>
+      </div>
+    </div>
+    <button class="user-pill" id="userPill" onclick="handlePillClick()">
+      <span>CONNECT</span>
+    </button>
+  </header>
+
+  <!-- BETA DISCLAIMER — dismissible per session. Below header, above tabs. -->
+  <div class="beta-banner" id="betaBanner">
+    <span class="beta-tag">BETA</span>
+    <div class="beta-text">
+      <b>This app is in beta testing.</b> Live marketplace data is not yet connected — gifts, prices, and stats shown are placeholders. Wallet connection works, but snipes are not real yet. Follow <a href="https://t.me/SniprTon" style="color:var(--lime);text-decoration:underline">@SniprTon</a> for updates.
+    </div>
+    <button class="beta-close" id="betaBannerClose" aria-label="Dismiss">×</button>
+  </div>
+
+  <!-- GIFTS/COINS mode toggle — below header and BETA banner. -->
   <div class="mode-toggle" id="modeToggle">
     <button class="mode-btn active" data-mode="gifts">🎁 GIFTS</button>
     <button class="mode-btn" data-mode="coins">🪙 COINS</button>
   </div>
 
-  <!-- GIFTS mode: existing production app, migrated. -->
-  <div id="modeGifts" class="mode-pane mode-pane-active">
-    <!-- Populated at runtime from src/gifts/body.html -->
-  </div>
+  <!-- GIFTS mode: populated at runtime from src/gifts/body.html -->
+  <div id="modeGifts" class="mode-pane mode-pane-active"></div>
 
   <!-- COINS mode: populated at runtime from src/coins/body.html -->
   <div id="modeCoins" class="mode-pane"></div>
