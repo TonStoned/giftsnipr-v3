@@ -1,14 +1,16 @@
 # =============================================================================
-#  GIFTSNIPR v0.3 — security headers (Turn 7 hardened)
+#  GIFTSNIPR v0.3 — security headers
 #
-#  Differences from the v0.2 production gifts CSP:
-#    - script-src: dropped 'unsafe-inline' (Vite produces external scripts)
-#    - connect-src: added GeckoTerminal, TonAPI, TonHub v4, Chainstack
-#    - connect-src: kept TonConnect bridges + gifts marketplaces
+#  Note on 'unsafe-inline' for script-src:
+#  The app uses inline onclick="..." handlers throughout gifts/app.js. Dropping
+#  'unsafe-inline' silently blocks them all — including the CONNECT button.
+#  We keep it for parity with the v0.2 production gifts app. Migration to
+#  addEventListener everywhere is a future cleanup; same security posture for
+#  now (XSS protection comes from textContent-only DOM building, not CSP).
 # =============================================================================
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.geckoterminal.com https://*.tonapi.io https://tonapi.io https://bridge.tonapi.io https://mainnet-v4.tonhubapi.com https://ton-mainnet.core.chainstack.com https://api.tonnel.network https://gifts2.tonnel.network https://api.mrkt.app https://portals-market.com https://walletbot.me https://bridge.tonkeeper.com https://*.tonkeeper.com https://tonconnectbridge.mytonwallet.org https://connect.tonhubapi.com https://bridge.bitget.com https://*.bitget.com https://www.okx.com https://*.okx.com https://api.gateio.ws https://*.gateio.ws https://api.bybit.com https://*.bybit.com https://raw.githubusercontent.com; frame-ancestors 'self' https://web.telegram.org https://t.me https://telegram.org; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests; report-uri /csp-report
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://api.geckoterminal.com https://*.tonapi.io https://tonapi.io https://bridge.tonapi.io https://mainnet-v4.tonhubapi.com https://ton-mainnet.core.chainstack.com https://api.tonnel.network https://gifts2.tonnel.network https://api.mrkt.app https://portals-market.com https://walletbot.me https://bridge.tonkeeper.com https://*.tonkeeper.com https://tonconnectbridge.mytonwallet.org https://connect.tonhubapi.com https://bridge.bitget.com https://*.bitget.com https://www.okx.com https://*.okx.com https://api.gateio.ws https://*.gateio.ws https://api.bybit.com https://*.bybit.com https://raw.githubusercontent.com; frame-ancestors 'self' https://web.telegram.org https://t.me https://telegram.org; form-action 'self'; base-uri 'self'; object-src 'none'; manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests
 
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Frame-Options: SAMEORIGIN
