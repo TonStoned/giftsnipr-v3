@@ -1,7 +1,7 @@
 <div class="coins-toolbar">
     <div class="coins-toolbar-label">🪙 TON Coins</div>
     <div class="spacer"></div>
-    <button class="gear-btn" onclick="openSlippage()" aria-label="Slippage settings">⚙</button>
+    <button class="gear-btn" data-action="open-slippage" aria-label="Slippage settings">⚙</button>
   </div>
 
   <div class="sort-tabs" id="sortTabs">
@@ -38,15 +38,15 @@
     <div class="stats-grid" id="detailStats"></div>
     <div class="links-row" id="detailLinks"></div>
     <div class="action-footer">
-      <button class="action-btn sell-btn" onclick="openTrade('sell')">SELL</button>
-      <button class="action-btn buy-btn" id="buyBtn" onclick="openTrade('buy')">BUY</button>
+      <button class="action-btn sell-btn" data-action="trade-sell">SELL</button>
+      <button class="action-btn buy-btn" id="buyBtn" data-action="trade-buy">BUY</button>
     </div>
   </div>
 
 
 
-<div class="coins-modal-backdrop" id="tradeModal" onclick="if(event.target===this)closeTrade()">
-  <div class="coins-modal" onclick="event.stopPropagation()">
+<div class="coins-modal-backdrop" id="tradeModal" data-action="close-trade-backdrop">
+  <div class="coins-modal" data-stop-propagation>
     <div class="modal-handle"></div>
     <div class="modal-title">
       <div class="modal-title-eye" id="tradeTitleEye">🪙</div>
@@ -101,15 +101,15 @@
       <div class="quote-row quote-fee"><span>Network gas <small>(est.)</small></span><span>0.25 TON</span></div>
       <div class="quote-row total"><span>Total cost</span><span id="quoteTotal">10.325 TON</span></div>
     </div>
-    <button class="confirm-btn" id="confirmBtn" onclick="confirmTrade()">🎯 SWAP NOW</button>
+    <button class="confirm-btn" id="confirmBtn" data-action="confirm-trade">🎯 SWAP NOW</button>
     <div class="confirm-disclaimer" id="tradeDisclaimer">
       You'll sign 2 messages in your wallet: a 0.075 TON fee to the GiftSnipr fee wallet and the 10 TON swap on DeDust.
     </div>
   </div>
 </div>
 
-<div class="coins-modal-backdrop center" id="slippageModal" onclick="if(event.target===this)closeSlippage()">
-  <div class="simple-modal">
+<div class="coins-modal-backdrop center" id="slippageModal" data-action="close-slippage-backdrop">
+  <div class="simple-modal" data-stop-propagation>
     <h3>⚙ DEFAULT SLIPPAGE</h3>
     <p>The maximum % your trade price can move against you before the swap reverts. Higher slippage = more likely to succeed on volatile coins, more likely to lose value.</p>
     <div class="slippage-row" id="defaultSlippageRow">
@@ -118,7 +118,7 @@
       <button class="slippage-btn" data-slip="3">3%</button>
       <button class="slippage-btn" data-slip="5">5%</button>
     </div>
-    <button class="confirm-btn" style="margin-top:14px" onclick="closeSlippage()">Done</button>
+    <button class="confirm-btn" style="margin-top:14px" data-action="close-slippage">Done</button>
   </div>
 </div>
 

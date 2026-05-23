@@ -695,7 +695,7 @@ async function confirmTrade() {
       </p>
 
       <button class="confirm-btn" id="finalConfirmBtn">🎯 SIGN IN WALLET</button>
-      <button onclick="window.closeTrade()"
+      <button data-action="close-trade"
         style="width:100%;padding:12px 0;margin-top:8px;background:transparent;border:none;color:rgba(0,0,0,0.6);font-family:var(--font-mono);font-size:13px;cursor:pointer">
         cancel
       </button>
@@ -759,7 +759,7 @@ function showTxBroadcast(result) {
       <div style="background:rgba(0,0,0,0.04);border-radius:10px;padding:10px;font-family:var(--font-mono);font-size:10px;word-break:break-all;color:rgba(0,0,0,0.55);text-align:left">
         ${escapeHtml((result.boc || '').slice(0, 60))}…
       </div>
-      <button onclick="window.closeTrade()" class="confirm-btn" style="margin-top:14px;background:var(--cream);box-shadow:0 4px 0 var(--ink)">
+      <button data-action="close-trade" class="confirm-btn" style="margin-top:14px;background:var(--cream);box-shadow:0 4px 0 var(--ink)">
         DONE (continue in background)
       </button>
     </div>`;
@@ -794,7 +794,7 @@ function showTxConfirmed(details) {
         style="display:block;padding:10px 12px;background:var(--cream);border:2px solid var(--ink);border-radius:10px;font-family:var(--font-mono);font-size:12px;color:var(--ink);text-decoration:none;margin-bottom:10px">
         🔍 View on TonViewer
       </a>` : ''}
-      <button class="confirm-btn" onclick="window.closeTrade()">DONE</button>
+      <button class="confirm-btn" data-action="close-trade">DONE</button>
     </div>`;
 }
 
@@ -818,7 +818,7 @@ function showTxOnchainFailed(details) {
         style="display:block;padding:10px 12px;background:var(--cream);border:2px solid var(--ink);border-radius:10px;font-family:var(--font-mono);font-size:12px;color:var(--ink);text-decoration:none;margin-bottom:10px">
         🔍 View details on TonViewer
       </a>` : ''}
-      <button class="confirm-btn" onclick="window.closeTrade()">CLOSE</button>
+      <button class="confirm-btn" data-action="close-trade">CLOSE</button>
     </div>`;
 }
 
@@ -836,7 +836,7 @@ function showTxTimeout(details) {
         We couldn't confirm on-chain within 90 seconds.
         This is usually fine — TON sometimes takes a minute. Open your wallet to see the final state.
       </p>
-      <button class="confirm-btn" onclick="window.closeTrade()">CLOSE</button>
+      <button class="confirm-btn" data-action="close-trade">CLOSE</button>
     </div>`;
 }
 
@@ -857,7 +857,7 @@ function showTxFailed(err) {
           ? 'You declined the request in your wallet. No funds moved.'
           : escapeHtml(msg)}
       </p>
-      <button class="confirm-btn" onclick="window.closeTrade()">CLOSE</button>
+      <button class="confirm-btn" data-action="close-trade">CLOSE</button>
     </div>`;
 }
 
@@ -914,8 +914,9 @@ function fmtJetton(amountNano, decimals = 9) {
 }
 
 // ---- Inline-onclick interop ----------------------------------------------
-// The HTML uses inline onclick=openTrade('buy'), etc. We attach these as
-// globals so existing markup keeps working.
+// We keep these as a fallback for any inline references still in dynamically
+// injected HTML, BUT the primary wiring is via data-action attributes +
+// delegated event listener below. This works under all CSP configurations.
 window.openTrade = openTrade;
 window.closeTrade = closeTrade;
 window.confirmTrade = confirmTrade;
@@ -923,6 +924,43 @@ window.closeDetail = closeDetail;
 window.openSlippage = openSlippage;
 window.closeSlippage = closeSlippage;
 window.recalcQuote = recalcQuote;
+
+// Delegated click handler — catches every data-action click in one place.
+// This is CSP-safe because addEventListener listeners aren't blocked by
+// script-src restrictions. Replaces all inline onclick="..." handlers.
+document.addEventListener('click', (e) => {
+  // Stop propagation helper — used by modal inner content to prevent backdrop close
+  const stopProp = e.target.closest('[data-stop-propagation]');
+  if (stopProp && !e.target.closest('[data-action]')) {
+    e.stopPropagation();
+    return;
+  }
+
+  const actionEl = e.target.closest('[data-action]');
+  if (!actionEl) return;
+  const action = actionEl.dataset.action;
+
+  // Backdrop closers: only fire if the click was on the backdrop itself,
+  // not bubbling up from inner content
+  if (action === 'close-trade-backdrop') {
+    if (e.target === actionEl) closeTrade();
+    return;
+  }
+  if (action === 'close-slippage-backdrop') {
+    if (e.target === actionEl) closeSlippage();
+    return;
+  }
+
+  switch (action) {
+    case 'trade-buy':    openTrade('buy');    break;
+    case 'trade-sell':   openTrade('sell');   break;
+    case 'confirm-trade': confirmTrade();     break;
+    case 'close-trade':  closeTrade();        break;
+    case 'open-slippage': openSlippage();     break;
+    case 'close-slippage': closeSlippage();   break;
+    case 'close-detail': closeDetail();       break;
+  }
+});
 
 // ---- Debug hook ---------------------------------------------------------
 window.__gs_diag = {
