@@ -704,7 +704,7 @@ function renderProfile(){
 
       <div class="referral-card">
         <div class="ref-text">invite <span class="pct">3</span> friends → unlock<br>premium for <span class="pct">30 days</span></div>
-        <button class="share-btn" onclick="shareRef()">SHARE</button>
+        <button class="share-btn" data-action="share-ref">SHARE</button>
       </div>
 
       <div class="card">
@@ -1132,12 +1132,9 @@ function initDailyClaimButton(){
 
 // Pill click router: connect if not connected, profile if connected
 function handlePillClick(){
-  console.log('[DEBUG] handlePillClick called, walletConnected =', walletConnected);
   if (!walletConnected) {
-    console.log('[DEBUG] calling triggerWalletConnect');
-    triggerWalletConnect().catch(e => console.error('[DEBUG] triggerWalletConnect threw:', e));
+    triggerWalletConnect().catch(e => console.error('[gifts] connect failed:', e));
   } else {
-    console.log('[DEBUG] going to profile');
     goToProfile();
   }
 }
@@ -1227,17 +1224,12 @@ const TC = (() => {
   let _statusUnsub = null;   // unsubscribe fn for onStatusChange
 
   function _initIfNeeded(){
-    console.log('[DEBUG] _initIfNeeded called, _ready =', _ready);
     if (_ready) return Promise.resolve();
     if (_readyPromise) return _readyPromise;
 
     _readyPromise = new Promise((resolve, reject) => {
       try {
         const manifestUrl = `${window.location.origin}/tonconnect-manifest.json`;
-        const widgetRoot = document.getElementById('tc-widget-root');
-        console.log('[DEBUG] manifestUrl =', manifestUrl);
-        console.log('[DEBUG] tc-widget-root exists =', !!widgetRoot);
-        console.log('[DEBUG] TonConnectUI type =', typeof TonConnectUI);
 
         _ui = new TonConnectUI({
           manifestUrl,
@@ -1245,10 +1237,8 @@ const TC = (() => {
           restoreConnection: true,
           widgetRootId: 'tc-widget-root',
         });
-        console.log('[DEBUG] TonConnectUI constructed, _ui =', !!_ui);
 
         _statusUnsub = _ui.onStatusChange((wallet) => {
-          console.log('[DEBUG] onStatusChange fired, wallet =', !!wallet);
           if (wallet) {
             _onWalletConnected(wallet);
           } else {
@@ -1346,23 +1336,15 @@ const TC = (() => {
    * MUST only be called AFTER our own SECURITY.safeConnect() has gated entry.
    */
   async function safeOpenModal(){
-    console.log('[DEBUG] safeOpenModal start, _ui =', !!_ui);
     try {
       await _initIfNeeded();
-      console.log('[DEBUG] _initIfNeeded done, _ui now =', !!_ui);
     } catch (e) {
-      console.error('[DEBUG] _initIfNeeded threw:', e);
       toast('⚠️ wallet SDK failed to load — try refreshing');
       return;
     }
-    if (!_ui) {
-      console.error('[DEBUG] _ui is still null after init');
-      return;
-    }
+    if (!_ui) return;
     try {
-      console.log('[DEBUG] calling _ui.openModal()');
       await _ui.openModal();
-      console.log('[DEBUG] _ui.openModal() returned');
     } catch (e) {
       console.error('[TC] openModal failed:', e);
       toast('⚠️ couldn\'t open wallet picker');
@@ -1437,16 +1419,44 @@ window.GS_BRIDGE = Object.freeze({
 });
 
 // ----------------------------------------------------------------------------
-// v0.3 BUGFIX: inline onclick="..." attributes in gifts/body.html and in
-// HTML-string innerHTML calls reference module-scoped functions. Vite wraps
-// modules in IIFEs, so those references can't find the functions. Manually
-// promote the handlers that inline HTML expects.
+// v0.3 BUGFIX 2: bind event listeners via JS instead of inline onclick="..."
+// attributes. The strict CSP on production blocks inline event handlers,
+// even when 'unsafe-inline' is set (some Netlify configurations strip it).
+// Using addEventListener works under ALL CSP configurations.
 //
-// In v0.2 (single <script> tag), these were automatic globals. Migrating to
-// ES modules broke that contract and the CONNECT button silently no-ops.
+// We still set window.handlePillClick + shareRef so any leftover inline
+// references in injected HTML don't break, but the primary wiring is via
+// addEventListener below.
 // ----------------------------------------------------------------------------
 window.handlePillClick = handlePillClick;
 window.shareRef = shareRef;
+
+// Bind the CONNECT pill click handler. The pill lives in index.html (top
+// level), so it exists at module-load time — no need to wait for DOM ready.
+// We still defer to next tick to be safe (in case this module loads before
+// the DOM is fully parsed for some reason).
+function _bindGlobalHandlers() {
+  const pill = document.getElementById('userPill');
+  if (pill && !pill.dataset.gsBound) {
+    pill.addEventListener('click', handlePillClick);
+    pill.dataset.gsBound = '1';
+  }
+  // Bind any future-rendered share buttons (e.g. inside the YOU tab)
+  document.querySelectorAll('[data-action="share-ref"]').forEach(btn => {
+    if (!btn.dataset.gsBound) {
+      btn.addEventListener('click', shareRef);
+      btn.dataset.gsBound = '1';
+    }
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _bindGlobalHandlers);
+} else {
+  _bindGlobalHandlers();
+}
+// Re-bind any time the DOM changes (e.g. when YOU tab renders the share btn)
+const _gsMutationObs = new MutationObserver(() => _bindGlobalHandlers());
+_gsMutationObs.observe(document.body, { childList: true, subtree: true });
 
 // ============================================================================
 //  IDLE TIMEOUT (HI6 fix)
@@ -2114,23 +2124,17 @@ const SECURITY = {
    * The wrapper around any "connect wallet" trigger.
    */
   async safeConnect(actualConnectFn){
-    console.log('[DEBUG] safeConnect start');
     if (this.isSessionExpired()) {
-      console.log('[DEBUG] session expired, clearing');
       this.clearSession();
     }
     if (this.hasVerifiedThisSession()) {
-      console.log('[DEBUG] already verified, skipping modal, calling actualConnectFn');
       return actualConnectFn();
     }
-    console.log('[DEBUG] showing verification modal');
     const confirmed = await this.showVerificationModal();
-    console.log('[DEBUG] verification modal closed, confirmed =', confirmed);
     if (!confirmed) {
       toast('connect cancelled — stay safe out there 🛡️');
       return;
     }
-    console.log('[DEBUG] calling actualConnectFn after verification');
     return actualConnectFn();
   },
 };
